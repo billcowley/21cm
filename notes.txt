@@ -1,1 +1,20 @@
-RA code for 2018
+RA code for 2018 using py wrapper for rtlsdr, plus octave 
+
+In this version the python script rtl_proc.py captures samples
+from the RTL dongle, computes PSDs then writes the results to file.
+It first reads the parameter values from rtlpars.txt
+Start this routine with 'python rtl_proc.py'
+
+Output files are psd1.txt and psd2.txt  These contain spectra (in dBs)
+at Fc1 and Fc2, averaged using the Welch method. The py script will
+wait until these files are deleted (by octave) before further sampling. 
+
+At present, octave script rtl_disp.m can be used to read the PSDs and
+display them (say on another machine) to test the front end is working.
+Start this routine with "octave rtl_disp.m"  This script can also be
+run on the same headless RPI - eg "ssh -Y ipaddress" will forward the
+graphics output from the RPI to the PC from which ssh was started.  
+Note that the octave script also requires access to the file rtlpars.txt.
+
+bill 10/feb/2018
+
