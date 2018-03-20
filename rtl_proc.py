@@ -50,7 +50,8 @@ def main():
            
            dfname = 'psd'+'%d'%m +'.txt'
            while (os.path.isfile(dfname)==1):
-               print(' wait for file ' + dfname + ' to disappear'); 
+               #print(' wait for file ' + dfname + ' to disappear');
+               sys.stdout.write('w');   sys.stdout.flush()
                time.sleep(4)
            try:        # reopen to allow changes on the fly 
                pars = ''
@@ -62,6 +63,8 @@ def main():
                exit()
 
            if len(pars)>1:
+#               print('collect data from chan'+str(m))
+#               print(sdr)
                if (m==1): sdr.fc = Fc1
                if (m==2): sdr.fc = Fc2
                sdr.rs = Fs
@@ -70,12 +73,14 @@ def main():
                      %(sdr.rs/1e6) + ' Gain %0.1f dB' %Gain)
                print('Reading samples...')
                samples = sdr.read_samples(Nsam)
+# demean has little effect          samples = samples - np.mean(samples)
                # returns floating point complex samples 
                print(' std %3.1f bits' % np.std(samples*128))
 
                # Welch PSD with default Hanning, no overlap
-               f, Pxx = signal.welch(samples, fs=Fs, nperseg=Nw)
-               print('PSD calculated')
+               f, Pxx = signal.welch(samples, fs=Fs, detrend = 'constant', nperseg=Nw)
+               Pxx[0] = (Pxx[1]+Pxx[-1])/2.0   # replace DC value 
+#               print('PSD calculated')
                if (freqStored==0):
                    np.savetxt('freqs.txt', f, fmt='%12.1f')
                    freqStored=1
@@ -87,7 +92,7 @@ def main():
            else:
                print('bad params, skipping ??')
                
-           #time.sleep(1)
+           time.sleep(0.1)
            
     print('Done\n')
     sdr.close()
