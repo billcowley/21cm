@@ -18,3 +18,11 @@ Note that the octave script also requires access to the file rtlpars.txt.
 
 bill 10/feb/2018
 
+--------------------------
+
+The curent code on this site is out of date.   Please contact me
+if you're interestedin a more recent version.   We did a youtube talk
+recently illustrating the project:  https://www.youtube.com/watch?v=vHxzKCaay0w
+
+Bill 24/June/2020
+-------------------------
